@@ -8,7 +8,7 @@ from minitorch import MathTest
 import minitorch
 from minitorch.operators import (
     add,
-    addLists,
+    # addLists,
     eq,
     id,
     inv,
@@ -18,10 +18,11 @@ from minitorch.operators import (
     max,
     mul,
     neg,
-    negList,
-    prod,
+    # negList,
+    # prod,
     relu,
     relu_back,
+    is_close,
     sigmoid,
 )
 
@@ -108,7 +109,9 @@ def test_sigmoid(a: float) -> None:
     * It is  strictly increasing.
     """
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    assert sigmoid(a) >= 0.0 and sigmoid(a) <= 1.0
+    assert is_close(1 - sigmoid(a), sigmoid(neg(a)))
+    assert sigmoid(0) == .5 
 
 
 @pytest.mark.task0_2
@@ -116,7 +119,8 @@ def test_sigmoid(a: float) -> None:
 def test_transitive(a: float, b: float, c: float) -> None:
     """Test the transitive property of less-than (a < b and b < c implies a < c)"""
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    if lt(a, b) and lt(b, c):
+        assert lt(a, c)
 
 
 @pytest.mark.task0_2
@@ -125,7 +129,8 @@ def test_symmetric() -> None:
     gives the same value regardless of the order of its input.
     """
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    assert mul(0, 1) == mul(1, 0)
+    assert mul(3, 2) == mul(2, 3)
 
 
 @pytest.mark.task0_2
@@ -134,14 +139,14 @@ def test_distribute() -> None:
     :math:`z \times (x + y) = z \times x + z \times y`
     """
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    assert mul(1, add(2, 3)) == add(mul(1, 2), mul(1, 3))
 
 
 @pytest.mark.task0_2
 def test_other() -> None:
     """Write a test that ensures some other property holds for your functions."""
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    assert id(2) == 2
 
 
 # ## Task 0.3  - Higher-order functions
