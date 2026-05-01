@@ -99,3 +99,50 @@ def relu_back(x: float, y: float) -> float:
 
 
 # TODO: Implement for Task 0.3.
+
+def map(fn: Callable[[float], float]) -> Callable[[Iterable[float]], Iterable[float]]:
+    def apply(arr: Iterable[float]) -> Iterable[float]:
+        ret = []
+        for x in arr:
+            ret.append(fn(x))
+
+        return ret
+    
+    return apply
+
+def zipWith(fn: Callable[[float, float], float]) -> Callable[[Iterable[float], Iterable[float]], Iterable[float]]:
+    def apply(arr1: Iterable[float], arr2: Iterable[float]) -> Iterable[float]:
+        ret = []
+        for x, y in zip(arr1, arr2):
+            ret.append(fn(x, y))
+        return ret
+    
+    return apply
+
+def reduce(fn: Callable[[float, float], float]) -> Callable[[Iterable[float]], float]:
+    def apply(arr: Iterable[float]) -> float:
+        it = iter(arr)
+        try:
+            prev = next(it)
+        except StopIteration:
+            return 0
+
+        res = prev
+        for curr in it:
+            res = fn(res, curr)
+
+        return res
+            
+    return apply
+
+def negList(arr: Iterable[float]) -> Iterable[float]:
+    return map(neg)(arr)
+
+def addLists(arr1: Iterable[float], arr2: Iterable[float]) -> Iterable[float]:
+    return zipWith(add)(arr1, arr2)
+    
+def sum(arr: Iterable[float]) -> float:
+    return reduce(add)(arr)
+
+def prod(arr: Iterable[float]) -> float:
+    return reduce(mul)(arr)
